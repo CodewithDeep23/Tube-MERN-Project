@@ -148,7 +148,7 @@ export const clearWatchHistory = createAsyncThunk("user/clearWatchHistory", asyn
 });
 
 // user playlist
-export const getUserPlaylist = createAsyncThunk("auth/getUserPlaylist", async () => {
+export const getUserPlaylist = createAsyncThunk("auth/getUserPlaylist", async (userId) => {
     try {
         const response = await axios.get(`/playlists/user/${userId}`);
         return response.data.data;
