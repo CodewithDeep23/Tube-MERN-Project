@@ -282,7 +282,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
       const cookieOptions = {
         httpOnly: true,
         secure: true,
-        sameSite: "None",
+        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
         maxAge: 24 * 60 * 60 * 1000
       };
 
