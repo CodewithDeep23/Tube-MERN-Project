@@ -218,17 +218,21 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
         const {accessToken, newRefreshToken} = await generateAccessAndRefreshToken(user._id)
     
-        const options = {
+        const cookieOptions = {
             httpOnly: true,
-            secure: true,
+            secure: process.env.NODE_ENV === "production",
             sameSite: "None",
-            Partitioned: true,
-        }
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
+        };
+
+        // Set cookies
+        res.cookie("accessToken", accessToken, cookieOptions);
+        res.cookie("refreshToken", newRefreshToken, cookieOptions);
         
-        res.setHeader(
-            "Set-Cookie",
-            `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60 * 1000}; Path=/; HttpOnly; SameSite=None; Secure; Partitioned`
-        );
+        // res.setHeader(
+        //     "Set-Cookie",
+        //     `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60 * 1000}; Path=/; HttpOnly; SameSite=None; Secure; Partitioned`
+        // );
     
         return res
         .status(200)
