@@ -140,7 +140,8 @@ const loginUser = asyncHandler(async (req, res) => {
     // secure cookies
     const options = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        sameSite: "None"  // ✅ required for cross-origin cookie sharing
     }
 
     // --> by default your cookies can be modified via frontend. But if you give the true value for these keys then no one can modify yours keys
@@ -181,7 +182,8 @@ const logoutUser = asyncHandler(async (req, res) => {
 
     const options = {
         httpOnly: true,
-        secure: true
+        secure: true,
+        sameSite: "None" 
     }
 
     return res
