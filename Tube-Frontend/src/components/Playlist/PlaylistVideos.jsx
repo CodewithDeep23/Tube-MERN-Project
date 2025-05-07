@@ -33,6 +33,7 @@ function PlaylistVideos() {
       navigate(`/`);
     }
   }
+  console.log("Playlist: ",playList)
 
   if (!playList) {
     return (
