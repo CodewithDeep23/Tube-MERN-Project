@@ -531,9 +531,10 @@ const clearWatchHistory = asyncHandler(async (req, res) => {
     return res
     .status(200)
     .json(
-        200,
-        user?.watchHistory,
-        "Watched History deleted successfully!"
+        new apiResponse(
+            200,
+            user?.watchHistory,
+            "Watched History deleted successfully!")
     );
 });
 
