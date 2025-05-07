@@ -286,11 +286,13 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         maxAge: 24 * 60 * 60 * 1000
       };
 
-      res.cookie("accessToken", accessToken, cookieOptions);
-      res.cookie("refreshToken", refreshToken, cookieOptions);
+    //   res.cookie("accessToken", accessToken, cookieOptions);
+    //   res.cookie("refreshToken", refreshToken, cookieOptions);
   
       return res
         .status(200)
+        .cookie("accessToken", accessToken, cookieOptions)
+        .cookie("refreshToken", refreshToken, cookieOptions)
         .json(
           new apiResponse(
             200,
