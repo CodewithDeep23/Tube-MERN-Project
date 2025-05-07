@@ -283,13 +283,11 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: "None",
-        Partitioned: true,
+        maxAge: 24 * 60 * 60 * 1000
       };
-  
-      res.setHeader(
-        "Set-Cookie",
-        `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60 * 1000}; Path=/; HttpOnly; SameSite=None; Secure; Partitioned`
-      );
+
+      res.cookie("accessToken", accessToken, cookieOptions);
+      res.cookie("refreshToken", refreshToken, cookieOptions);
   
       return res
         .status(200)
