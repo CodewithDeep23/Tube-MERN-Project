@@ -33,7 +33,7 @@ function PlaylistVideos() {
       navigate(`/`);
     }
   }
-  console.log("Playlist: ",playList)
+  console.log("Playlist: ", playList);
 
   if (!playList) {
     return (
@@ -260,7 +260,21 @@ function PlaylistVideos() {
         </div>
         {/* Playlist videos */}
         <ul className="flex w-full flex-col gap-y-4">
-          {playList.videos?.length > 0 || (
+          {/* {playList.videos?.length > 0 || (
+            <div className="w-full h-full flex items-center justify-center">
+              <EmptyPlaylist playlistVideos />
+            </div>
+          )} */}
+          {playList.videos?.length > 0 ? (
+            playList.videos.map((video) => (
+              <PlaylistVideoAtom
+                key={video._id}
+                video={video}
+                playlistId={playlistId}
+                owner={isOwner}
+              />
+            ))
+          ) : (
             <div className="w-full h-full flex items-center justify-center">
               <EmptyPlaylist playlistVideos />
             </div>
