@@ -216,7 +216,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
             throw new apiError(402, "Refresh token is expired")
         }
 
-        const {accessToken, newRefreshToken} = await generateAccessAndRefreshToken(user._id)
+        const {accessToken, refreshToken: newRefreshToken} = await generateAccessAndRefreshToken(user._id)
     
         const cookieOptions = {
             httpOnly: true,
