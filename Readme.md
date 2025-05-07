@@ -76,7 +76,7 @@
 1. **Clone the repository:**
 
     ```bash
-    git clone https://github.com/CodewithDeep23/Tube-MERN-Project
+    git clone https://github.com/CodewithDeep23/Tube-MERN-Project.git
     ```
 
 2. **Install dependencies For Backend:**
