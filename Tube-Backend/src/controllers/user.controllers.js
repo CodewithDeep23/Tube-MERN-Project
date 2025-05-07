@@ -195,61 +195,115 @@ const logoutUser = asyncHandler(async (req, res) => {
 })
 
 // Refresh Token
-const refreshAccessToken = asyncHandler(async (req, res) => {
-    const incomingRefreshToken = req.cookies?.refreshToken || req.body.refreshToken
+// const refreshAccessToken = asyncHandler(async (req, res) => {
+//     const incomingRefreshToken = req.cookies?.refreshToken || req.body.refreshToken
 
-    if(!incomingRefreshToken){
-        throw new apiError(401, "Unauthorized access")
-    }
+//     if(!incomingRefreshToken){
+//         throw new apiError(401, "Unauthorized access")
+//     }
 
-    try {
-        // Verify refresh token
-        const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET)
+//     try {
+//         // Verify refresh token
+//         const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET)
     
-        const user = await User.findById(decodedToken._id)
+//         const user = await User.findById(decodedToken._id)
     
-        if(!user){
-            throw new apiError(402, "Invalid Refresh Token")
-        }
+//         if(!user){
+//             throw new apiError(402, "Invalid Refresh Token")
+//         }
     
-        if(user.refreshToken !== incomingRefreshToken){
-            throw new apiError(402, "Refresh token is expired")
-        }
+//         if(user.refreshToken !== incomingRefreshToken){
+//             throw new apiError(402, "Refresh token is expired")
+//         }
 
-        const {accessToken, refreshToken: newRefreshToken} = await generateAccessAndRefreshToken(user._id)
+//         const {accessToken, refreshToken: newRefreshToken} = await generateAccessAndRefreshToken(user._id)
     
-        const cookieOptions = {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "None",
-            maxAge: 24 * 60 * 60 * 1000 // 1 day
-        };
+//         const cookieOptions = {
+//             httpOnly: true,
+//             secure: process.env.NODE_ENV === "production",
+//             sameSite: "None",
+//             maxAge: 24 * 60 * 60 * 1000 // 1 day
+//         };
 
-        // Set cookies
-        res.cookie("accessToken", accessToken, cookieOptions);
-        res.cookie("refreshToken", newRefreshToken, cookieOptions);
+//         // Set cookies
+//         res.cookie("accessToken", accessToken, cookieOptions);
+//         res.cookie("refreshToken", newRefreshToken, cookieOptions);
         
-        // res.setHeader(
-        //     "Set-Cookie",
-        //     `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60 * 1000}; Path=/; HttpOnly; SameSite=None; Secure; Partitioned`
-        // );
+//         // res.setHeader(
+//         //     "Set-Cookie",
+//         //     `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60 * 1000}; Path=/; HttpOnly; SameSite=None; Secure; Partitioned`
+//         // );
     
-        return res
+//         return res
+//         .status(200)
+//         .json(
+//             new apiResponse(
+//                 200,
+//                 {
+//                     accessToken,
+//                     refreshToken: newRefreshToken
+//                 },
+//                 "Access token refreshed successfully"
+//             )
+//         )
+//     } catch (error) {
+//         throw new apiError(401, error?.message || "Ivalid refresh token")
+//     }
+// })
+
+const refreshAccessToken = asyncHandler(async (req, res) => {
+    const incomingRefreshToken =
+      req.cookies?.refreshToken || req.body.refreshToken;
+  
+    if (!incomingRefreshToken) {
+      throw new APIError(401, "unauthorized request");
+    }
+  
+    try {
+      const decodedRefreshToken = jwt.verify(
+        incomingRefreshToken,
+        process.env.REFRESH_TOKEN_SECRET
+      );
+  
+      const user = await User.findById(decodedRefreshToken?._id);
+  
+      if (!user) {
+        throw new APIError(401, "Invalid Refresh Token");
+      }
+  
+      if (incomingRefreshToken !== user.refreshToken) {
+        throw new APIError(401, "Refresh token is expired or used");
+      }
+  
+      const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
+        user._id
+      );
+  
+      const cookieOptions = {
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+        Partitioned: true,
+      };
+  
+      res.setHeader(
+        "Set-Cookie",
+        `accessToken=${accessToken}; Max-Age=${1 * 24 * 60 * 60 * 1000}; Path=/; HttpOnly; SameSite=None; Secure; Partitioned`
+      );
+  
+      return res
         .status(200)
         .json(
-            new apiResponse(
-                200,
-                {
-                    accessToken,
-                    refreshToken: newRefreshToken
-                },
-                "Access token refreshed successfully"
-            )
-        )
+          new apiResponse(
+            200,
+            { accessToken, newRefreshToken: refreshToken },
+            "Access Token Granted Successfully"
+          )
+        );
     } catch (error) {
-        throw new apiError(401, error?.message || "Ivalid refresh token")
+      throw new apiError(401, error?.message || "Invalid refresh token");
     }
-})
+});
 
 
 // Change Password
