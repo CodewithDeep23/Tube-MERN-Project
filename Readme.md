@@ -1,6 +1,6 @@
 # 🔥 TubeEngine (YouTube x Twitter)
 
-**TubeEngine** is a MERN project that combines core functionalities of **YouTube (videos, subscriptions, playlists)** and **Twitter (tweets, likes, comments)** into one robust API. Built using **Node.js**, **React, **Express**, and **MongoDB**, it provides RESTful endpoints for media-based applications.
+**TubeEngine** is a MERN stack project that combines core functionalities of **YouTube (videos, subscriptions, playlists)** and **Twitter (tweets, likes, comments)** into one robust API. Built using **Node.js**, **React, **Express**, and **MongoDB**, it provides RESTful endpoints for media-based applications.
 
 ---
 
@@ -10,6 +10,7 @@
 |---------------------|----------------------------------------------------------------------|
 | 🧪 Postman Docs     | [View API Documentation](https://documenter.getpostman.com/view/39785896/2sB2izDt48) |
 | 🧠 DB Schema Model  | [Eraser Diagram](https://app.eraser.io/workspace/OJQXZCrbUtiEVt8QAo5G) |
+| 🚀 Live Frontend    | [View on Vercel](https://tube-mern-project.vercel.app/)              |
 
 ---
 
@@ -57,12 +58,14 @@
 
 ## 🧰 Tech Stack
 
-- **Frontend**: React, Axios, React Router, Tailwind CSS
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB + Mongoose
-- **Authentication**: JWT (JSON Web Tokens)
-- **Media Storage**: Cloudinary (for video/image handling)
-- **API Testing**: Postman
+- ⚛️ **Frontend**: React, Axios, React Router, Tailwind CSS  
+- 🛠️ **Backend**: Node.js, Express.js  
+- 🗄️ **Database**: MongoDB + Mongoose  
+- 🔐 **Authentication**: JWT (JSON Web Tokens)  
+- ☁️ **Media Storage**: Cloudinary (for video/image handling)  
+- 🧪 **API Testing**: Postman  
+- 🚀 **Frontend Deployment**: Vercel  
+- 🔧 **Backend Deployment**: Render 
 
 ---
 
